@@ -1,62 +1,171 @@
-<!DOCTYPE html>
+Open sidebar
+
+Borromeo, Roi S.
+Create a webpage that uses this firebase api // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
+  authDomain: "prime-sunset-368011.firebaseapp.com",
+  databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com",
+  projectId: "prime-sunset-368011",
+  storageBucket: "prime-sunset-368011.appspot.com",
+  messagingSenderId: "481188677491",
+  appId: "1:481188677491:web:ab06d266869886d77da706",
+  measurementId: "G-BT9ZX5XYY2"
+};
+
+2 / 2
+
+
 <html>
-  <head>
-    <title>Firebase Realtime Database Example</title>
-  </head>
-  <body>
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<head>
+<title>Firebase API Example</title>
+<!-- Include the Firebase JS SDK -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-database.js"></script>
+<!-- Initialize Firebase -->
+<script>
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
+    authDomain: "prime-sunset-368011.firebaseapp.com",
+    databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com",
+    projectId: "prime-sunset-368011",
+    storageBucket: "prime-sunset-368011.appspot.com",
+    messagingSenderId: "481188677491",
+    appId: "1:481188677491:web:ab06d266869886d77da706",
+    measurementId: "G-BT9ZX5XYY2"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+</head>
+<body>
+<!-- Display data from Firebase database -->
+<h1>Data from Firebase</h1>
+<div id="data">Loading...</div>
+<script>
+  // Get a reference to the database service
+  var database = firebase.database();
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-         https://firebase.google.com/docs/web/setup#available-libraries -->
+  // Retrieve data from Firebase and display on page
+  var ref = database.ref("data");
+  ref.on("value", function(snapshot) {
+    document.getElementById("data").innerHTML = snapshot.val();
+  });
+</script>
+</body>
+</html>
 
-    <script>
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
-        authDomain: "prime-sunset-368011.firebaseapp.com",
-        databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com/",
-        projectId: "prime-sunset-368011",
-        storageBucket: "prime-sunset-368011.appspot.com",
-        messagingSenderId: "481188677491",
-        appId: "1:481188677491:web:ab06d266869886d77da706",
-        measurementId: "G-BT9ZX5XYY2"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
 
-      // Get a reference to the database service
-      const database = firebase.database();
 
-      // Add a new item to the list
-      const newItemRef = database.ref('items').push();
-      newItemRef.set({
-        name: 'item1',
-        quantity: 1,
-        price: 10.99
-      });
+Borromeo, Roi S.
+do it with firestore
 
-      // Listen for changes to data at a specific location in the database
-      database.ref('items').on('value', (snapshot) => {
-        // Update the webpage with the latest data
-        const items = snapshot.val();
-        updateWebpage(items);
-      });
+<html>
+<head>
+<title>Firestore API Example</title>
+<!-- Include the Firebase JS SDK -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
+<!-- Initialize Firebase -->
+<script>
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
+    authDomain: "prime-sunset-368011.firebaseapp.com",
+    databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com",
+    projectId: "prime-sunset-368011",
+    storageBucket: "prime-sunset-368011.appspot.com",
+    messagingSenderId: "481188677491",
+    appId: "1:481188677491:web:ab06d266869886d77da706",
+    measurementId: "G-BT9ZX5XYY2"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+</head>
+<body>
+<!-- Display data from Firestore -->
+<h1>Data from Firestore</h1>
+<div id="data">Loading...</div>
+<script>
+  // Get a reference to the Firestore service
+  var firestore = firebase.firestore();
 
-      function updateWebpage(items) {
-        // Clear the existing data from the webpage
-        document.getElementById('items').innerHTML = '';
+  // Retrieve data from Firestore and display on page
+  var docRef = firestore.doc("data/data");
+  docRef.get().then(function(doc) {
+    if (doc.exists) {
+      document.getElementById("data").innerHTML = doc.data().data;
+    } else {
+      // Document not found
+      document.getElementById("data").innerHTML = "No data found in Firestore";
+    }
+  }).catch(function(error) {
+    console.log("Error getting document:", error);
+  });
+</script>
+</body>
+</html>
 
-        // Add the new data to the webpage
-        for (const item in items) {
-          const itemEl = document.createElement('li');
-          itemEl.innerHTML = `${items[item].name}: ${items[item].quantity} x ${items[item].price}`;
-          document.getElementById('items').appendChild(itemEl);
-        }
-      }
-    </script>
 
-    <h1>Items</h1>
-    <ul id="items"></ul>
-  </body>
+
+Borromeo, Roi S.
+make an insert to database in there
+
+<html>
+<head>
+<title>Firestore API Example</title>
+<!-- Include the Firebase JS SDK -->
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
+<!-- Initialize Firebase -->
+<script>
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
+    authDomain: "prime-sunset-368011.firebaseapp.com",
+    databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com",
+    projectId: "prime-sunset-368011",
+    storageBucket: "prime-sunset-368011.appspot.com",
+    messagingSenderId: "481188677491",
+    appId: "1:481188677491:web:ab06d266869886d77da706",
+    measurementId: "G-BT9ZX5XYY2"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
+</head>
+<body>
+<!-- Display data from Firestore -->
+<h1>Data from Firestore</h1>
+<div id="data">Loading...</div>
+<!-- Insert new data into Firestore -->
+<form onsubmit="insertData(); return false;">
+  <input id="newData" type="text" placeholder="Enter new data">
+  <button type="submit">Insert</button>
+</form>
+<script>
+  // Get a reference to the Firestore service
+  var firestore = firebase.firestore();
+
+  // Retrieve data from Firestore and display on page
+  var docRef = firestore.doc("data/data");
+  docRef.get().then(function(doc) {
+    if (doc.exists) {
+      document.getElementById("data").innerHTML = doc.data().data;
+    } else {
+      // Document not found
+      document.getElementById("data").innerHTML = "No data found in Firestore";
+    }
+  }).catch(function(error) {
+    console.log("Error getting document:", error);
+  });
+
+  // Insert new data into Firestore
+  function insertData() {
+    var newData = document.getElementById("newData").value;
+    docRef.set({
+      data: newData
+    });
+  }
+</script>
+</body>
 </html>
