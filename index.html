@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Firebase Realtime Database Example</title>
+  </head>
+  <body>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
+        authDomain: "prime-sunset-368011.firebaseapp.com",
+        databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com/",
+        projectId: "prime-sunset-368011",
+        storageBucket: "prime-sunset-368011.appspot.com",
+        messagingSenderId: "481188677491",
+        appId: "1:481188677491:web:ab06d266869886d77da706",
+        measurementId: "G-BT9ZX5XYY2"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Get a reference to the database service
+      const database = firebase.database();
+
+      // Add a new item to the list
+      const newItemRef = database.ref('items').push();
+      newItemRef.set({
+        name: 'item1',
+        quantity: 1,
+        price: 10.99
+      });
+
+      // Listen for changes to data at a specific location in the database
+      database.ref('items').on('value', (snapshot) => {
+        // Update the webpage with the latest data
+        const items = snapshot.val();
+        updateWebpage(items);
+      });
+
+      function updateWebpage(items) {
+        // Clear the existing data from the webpage
+        document.getElementById('items').innerHTML = '';
+
+        // Add the new data to the webpage
+        for (const item in items) {
+          const itemEl = document.createElement('li');
+          itemEl.innerHTML = `${items[item].name}: ${items[item].quantity} x ${items[item].price}`;
+          document.getElementById('items').appendChild(itemEl);
+        }
+      }
+    </script>
+
+    <h1>Items</h1>
+    <ul id="items"></ul>
+  </body>
+</html>
