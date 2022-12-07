@@ -1,155 +1,48 @@
-
-
+<!DOCTYPE html>
 <html>
 <head>
-<title>Firebase API Example</title>
-<!-- Include the Firebase JS SDK -->
-<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-database.js"></script>
-<!-- Initialize Firebase -->
-<script>
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
-    authDomain: "prime-sunset-368011.firebaseapp.com",
-    databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com",
-    projectId: "prime-sunset-368011",
-    storageBucket: "prime-sunset-368011.appspot.com",
-    messagingSenderId: "481188677491",
-    appId: "1:481188677491:web:ab06d266869886d77da706",
-    measurementId: "G-BT9ZX5XYY2"
-  };
-  firebase.initializeApp(firebaseConfig);
-</script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Insert Data to Firestore API</title>
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
 </head>
 <body>
-<!-- Display data from Firebase database -->
-<h1>Data from Firebase</h1>
-<div id="data">Loading...</div>
-<script>
-  // Get a reference to the database service
-  var database = firebase.database();
-
-  // Retrieve data from Firebase and display on page
-  var ref = database.ref("data");
-  ref.on("value", function(snapshot) {
-    document.getElementById("data").innerHTML = snapshot.val();
-  });
-</script>
-</body>
-</html>
-
-
-
-Borromeo, Roi S.
-do it with firestore
-
-<html>
-<head>
-<title>Firestore API Example</title>
-<!-- Include the Firebase JS SDK -->
-<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
-<!-- Initialize Firebase -->
-<script>
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
-    authDomain: "prime-sunset-368011.firebaseapp.com",
-    databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com",
-    projectId: "prime-sunset-368011",
-    storageBucket: "prime-sunset-368011.appspot.com",
-    messagingSenderId: "481188677491",
-    appId: "1:481188677491:web:ab06d266869886d77da706",
-    measurementId: "G-BT9ZX5XYY2"
-  };
-  firebase.initializeApp(firebaseConfig);
-</script>
-</head>
-<body>
-<!-- Display data from Firestore -->
-<h1>Data from Firestore</h1>
-<div id="data">Loading...</div>
-<script>
-  // Get a reference to the Firestore service
-  var firestore = firebase.firestore();
-
-  // Retrieve data from Firestore and display on page
-  var docRef = firestore.doc("data/data");
-  docRef.get().then(function(doc) {
-    if (doc.exists) {
-      document.getElementById("data").innerHTML = doc.data().data;
-    } else {
-      // Document not found
-      document.getElementById("data").innerHTML = "No data found in Firestore";
-    }
-  }).catch(function(error) {
-    console.log("Error getting document:", error);
-  });
-</script>
-</body>
-</html>
-
-
-
-Borromeo, Roi S.
-make an insert to database in there
-
-<html>
-<head>
-<title>Firestore API Example</title>
-<!-- Include the Firebase JS SDK -->
-<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
-<!-- Initialize Firebase -->
-<script>
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
-    authDomain: "prime-sunset-368011.firebaseapp.com",
-    databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com",
-    projectId: "prime-sunset-368011",
-    storageBucket: "prime-sunset-368011.appspot.com",
-    messagingSenderId: "481188677491",
-    appId: "1:481188677491:web:ab06d266869886d77da706",
-    measurementId: "G-BT9ZX5XYY2"
-  };
-  firebase.initializeApp(firebaseConfig);
-</script>
-</head>
-<body>
-<!-- Display data from Firestore -->
-<h1>Data from Firestore</h1>
-<div id="data">Loading...</div>
-<!-- Insert new data into Firestore -->
-<form onsubmit="insertData(); return false;">
-  <input id="newData" type="text" placeholder="Enter new data">
-  <button type="submit">Insert</button>
-</form>
-<script>
-  // Get a reference to the Firestore service
-  var firestore = firebase.firestore();
-
-  // Retrieve data from Firestore and display on page
-  var docRef = firestore.doc("data/data");
-  docRef.get().then(function(doc) {
-    if (doc.exists) {
-      document.getElementById("data").innerHTML = doc.data().data;
-    } else {
-      // Document not found
-      document.getElementById("data").innerHTML = "No data found in Firestore";
-    }
-  }).catch(function(error) {
-    console.log("Error getting document:", error);
-  });
-
-  // Insert new data into Firestore
-  function insertData() {
-    var newData = document.getElementById("newData").value;
-    docRef.set({
-      data: newData
+  <h1>Insert Data to Firestore API</h1>
+  <form id="insertForm">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username"><br><br>
+    <button type="submit">Submit</button>
+  </form>
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBdJCttBYvasDGYmhioNwjb0ULDe5LIjCI",
+      authDomain: "prime-sunset-368011.firebaseapp.com",
+      databaseURL: "https://prime-sunset-368011-default-rtdb.firebaseio.com",
+      projectId: "prime-sunset-368011",
+      storageBucket: "prime-sunset-368011.appspot.com",
+      messagingSenderId: "481188677491",
+      appId: "1:481188677491:web:ab06d266869886d77da706",
+      measurementId: "G-BT9ZX5XYY2"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    
+    // Insert data to Firestore on form submission
+    document.getElementById("insertForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      db.collection("usernames").add({
+        username: username
+      })
+      .then(function() {
+        console.log("Document successfully written!");
+      })
+      .catch(function(error) {
+        console.error("Error writing document: ", error);
+      });
     });
-  }
-</script>
+  </script>
 </body>
 </html>
